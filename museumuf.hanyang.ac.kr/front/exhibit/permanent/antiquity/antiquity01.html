@@ -2796,6 +2796,13 @@
     });
   });
   document.querySelectorAll('.modal-content .snap3d-canvas').forEach(function (c) { io.observe(c); });
+  // #item-N 해시로 접속하면 해당 상세보기 팝업을 연다
+  window.addEventListener('load', function () {
+    var h = location.hash;
+    if (!/^#item-\d+$/.test(h)) return;
+    var a = document.querySelector('a.modal-open[href="' + h + '"]');
+    if (a) a.click();
+  });
 })();
 </script>
 </body>
