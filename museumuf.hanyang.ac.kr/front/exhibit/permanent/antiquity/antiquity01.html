@@ -2796,13 +2796,22 @@
     });
   });
   document.querySelectorAll('.modal-content .snap3d-canvas').forEach(function (c) { io.observe(c); });
-  // #item-N 해시로 접속하면 해당 상세보기 팝업을 연다
-  window.addEventListener('load', function () {
+  // #item-N 해시로 접속하면 해당 상세보기 팝업을 연다.
+  // 사이트 핸들러가 붙는 시점이 불확실하므로 팝업이 열릴 때까지 재시도한다.
+  (function () {
     var h = location.hash;
     if (!/^#item-\d+$/.test(h)) return;
-    var a = document.querySelector('a.modal-open[href="' + h + '"]');
-    if (a) a.click();
-  });
+    var tries = 0;
+    var timer = setInterval(function () {
+      var modal = document.querySelector('.modal');
+      var a = document.querySelector('a.modal-open[href="' + h + '"]');
+      if ((modal && modal.classList.contains('active')) || ++tries > 100) {
+        clearInterval(timer);
+        return;
+      }
+      if (a) a.click();
+    }, 100);
+  })();
 })();
 </script>
 </body>
