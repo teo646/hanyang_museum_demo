@@ -2784,14 +2784,20 @@
 
 
 <script src="../../../../../snap3d/viewer.js"></script>
+<script src="../../../../../snap3d/annotations.js"></script>
 <script>
 (function () {
   var bundle = '../../../../../snap3d/stone.snap3d';
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (!e.isIntersecting || e.target.__snap3d) return;
-      e.target.__snap3d = new Snap3dViewer(e.target, bundle);
-      e.target.__snap3d.start();
+      var viewer = e.target.__snap3d = new Snap3dViewer(e.target, bundle);
+      viewer.start();
+      viewer.ready.then(function () {
+        return fetch('../../../../../snap3d/labels.json').then(function (r) { return r.json(); });
+      }).then(function (labels) {
+        Snap3dAnnotations.attach(viewer, { bundle: bundle, labels: labels });
+      });
       io.unobserve(e.target);
     });
   });
