@@ -130,7 +130,7 @@
         var c = mesh.center, p = l.position;
         var dir = [p[0] - c[0], p[1] - c[1], p[2] - c[2]];
         var len = Math.hypot(dir[0], dir[1], dir[2]) || 1;
-        var r = viewer.controls.home.radius * 0.55;
+        var r = viewer.controls.home.radius * (l.zoom || 0.55);  // l.zoom: optional closer/farther view
         to = {
           target: p.slice(),
           eye: [p[0] + dir[0] / len * r, p[1] + dir[1] / len * r, p[2] + dir[2] / len * r]
