@@ -169,6 +169,9 @@
 
 
 
+<style>
+.border-row .img-list__inner.snap3d-link::before{content:"3차원 보기";width:auto;height:auto;padding:.4rem .8rem;border-radius:.4rem;background:rgba(0,0,0,.65);background-image:none;color:#fff;font-size:1.2rem;line-height:1.4;top:auto;bottom:.8rem;right:.8rem}
+</style>
 </head>
 
 <body class="layout-sub">
@@ -1467,8 +1470,8 @@
   <div class="border-row">
    <p class="border-row__title">대표유물</p>
    <ul class="img-list">
-    <li class="img-list__item"><a href="#item-1" class="img-list__inner modal-open"> <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwx94elmuJ78oLaoEoQ/x.jpg" alt="exhibit-antiquity02-03"> </a></li>
-    <li class="img-list__item"><a href="#item-2" class="img-list__inner modal-open"> <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwyILfGO0OwlanuiHhA/x.jpg" alt="빗살무늬-토기"> </a></li>
+    <li class="img-list__item"><a href="#item-1" class="img-list__inner modal-open snap3d-link"> <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwx94elmuJ78oLaoEoQ/x.jpg" alt="exhibit-antiquity02-03"> </a></li>
+    <li class="img-list__item"><a href="#item-2" class="img-list__inner modal-open snap3d-link"> <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwyILfGO0OwlanuiHhA/x.jpg" alt="빗살무늬-토기"> </a></li>
    </ul>
   </div>
   <div class="border-row">
@@ -1501,13 +1504,13 @@
    <div class="modal-content" data-item="#item-1">
     <p class="modal-content__title">빗살무늬토기(복합문발형토기)</p>
     <p class="modal-content__summary">크기 : 가로-9.6㎝, 세로-0.5㎝</p>
-    <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwx94elmuJ78oLaoEoQ/x.jpg" alt="exhibit-antiquity02-03">
+    <canvas class="snap3d-canvas" style="width:100%;height:36vh;max-height:300px;display:block;touch-action:none"></canvas>
     <p class="modal-content__desc">빗살무늬토기란 토기의 겉면에 빗살 같은 줄이 새겨지거나 점열, 동그라미 등의 기하학무늬를 나타낸 토기로, 한국 신석기시대에 만들어진 토기를 통칭한다. 나무 ·뼈연장 또는 그것으로 만든 여러 가닥이 난 빗살모양의 무늬새기개를 가지고 그릇 바깥 면에 짤막한 줄을 눌러 베거나 그어서 새긴 것을 빗살무늬라고 부른다. 이러한 빗살무늬는 질그릇에 따라 여러 모습을 나타내는데, 한국에서 가장 특징적인 것은 선 ·점선으로 된 짧은 줄을 한쪽 방향으로 또는 서로 방향을 엇바꾸어가면서 그려서 그 모습이 생선뼈처럼 생긴 것이다. 이 유물은 폭 0.5㎝ 정도의 시문구를 써서 압날하여 선을 그은 무늬가 있다. 태토(胎土)는 점토에 미세한 활석(滑石)을 넣었다.</p>
    </div>
    <div class="modal-content" data-item="#item-2">
     <p class="modal-content__title">빗살무늬토기</p>
     <p class="modal-content__summary">높이 : 25cm</p>
-    <img src="https://museumuf.hanyang.ac.kr/b/file/thumb/AZqfwyILfGO0OwlanuiHhA/x.jpg" alt="빗살무늬-토기">
+    <canvas class="snap3d-canvas" style="width:100%;height:36vh;max-height:300px;display:block;touch-action:none"></canvas>
     <p class="modal-content__desc">빗살무늬토기란 토기의 겉면에 빗살 같은 줄이 새겨지거나 점열, 동그라미 등의 기하학무늬를 나타낸 토기로, 한국 신석기시대에 만들어진 토기를 통칭한다. 나무 ·뼈연장 또는 그것으로 만든 여러 가닥이 난 빗살모양의 무늬새기개를 가지고 그릇 바깥 면에 짤막한 줄을 눌러 베거나 그어서 새긴 것을 빗살무늬라고 부른다. 이러한 빗살무늬는 질그릇에 따라 여러 모습을 나타내는데, 한국에서 가장 특징적인 것은 선 ·점선으로 된 짧은 줄을 한쪽 방향으로 또는 서로 방향을 엇바꾸어가면서 그려서 그 모습이 생선뼈처럼 생긴 것이다. 이 유물은 폭 0.5㎝ 정도의 시문구를 써서 압날하여 선을 그은 무늬가 있다. 태토(胎土)는 점토에 미세한 활석(滑石)을 넣었다.</p>
    </div>
    <div class="modal-content" data-item="#item-3">
@@ -2756,6 +2759,43 @@
 
 
 
+<script src="../../../../../snap3d/viewer.js"></script>
+<script src="../../../../../snap3d/annotations.js"></script>
+<script>
+(function () {
+  var bundle = '../../../../../snap3d/comb_pattern_pottery.snap3d';
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting || e.target.__snap3d) return;
+      var viewer = e.target.__snap3d = new Snap3dViewer(e.target, bundle);
+      viewer.start();
+      viewer.ready.then(function () {
+        return fetch(bundle.replace(/\.snap3d$/, '.labels.json')).then(function (r) { return r.json(); });
+      }).then(function (labels) {
+        e.target.__s3a = Snap3dAnnotations.attach(viewer, { bundle: bundle, labels: labels });
+      });
+      io.unobserve(e.target);
+    });
+  });
+  document.querySelectorAll('.modal-content .snap3d-canvas').forEach(function (c) { io.observe(c); });
+  // #item-N 해시로 접속하면 해당 상세보기 팝업을 연다.
+  // 사이트 핸들러가 붙는 시점이 불확실하므로 팝업이 열릴 때까지 재시도한다.
+  (function () {
+    var h = location.hash;
+    if (!/^#item-\d+$/.test(h)) return;
+    var tries = 0;
+    var timer = setInterval(function () {
+      var modal = document.querySelector('.modal');
+      var a = document.querySelector('a.modal-open[href="' + h + '"]');
+      if ((modal && modal.classList.contains('active')) || ++tries > 100) {
+        clearInterval(timer);
+        return;
+      }
+      if (a) a.click();
+    }, 100);
+  })();
+})();
+</script>
 </body>
 
 <!-- Mirrored from museumuf.hanyang.ac.kr/front/exhibit/permanent/antiquity/antiquity02 by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 19 Oct 2026 09:59:51 GMT -->
