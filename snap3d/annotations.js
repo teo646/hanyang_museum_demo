@@ -72,8 +72,6 @@
       '.s3a-chip.active{background:#c99867;color:#fff}',
       '.s3a-title{font-weight:700;font-size:1.6rem;margin-bottom:.4rem}',
       '.s3a-hint{color:#777}',
-      '.s3a-reset{margin-top:.8rem;padding:.3rem 1rem;border:0;border-radius:.4rem;background:#c99867;color:#fff;',
-      'font-size:1.3rem;cursor:pointer}',
       '.s3a-edit{position:absolute;left:8px;top:8px;max-width:90%;padding:6px 10px;border-radius:6px;',
       'background:rgba(0,0,0,.78);color:#fff;font:12px/1.5 monospace;pointer-events:none;z-index:5}'
     ].join('');
@@ -98,10 +96,20 @@
 
     function showHint() {
       body.innerHTML = '';
-      body.appendChild(el('div', 's3a-hint', '표면의 번호를 눌러 부위별 설명을 확인해 보세요.'));
+      body.appendChild(el('div', 's3a-hint', '표면의 번호를 눌러 부위별 설명을 확인해 보세요. 같은 번호를 다시 누르면 전체 보기로 돌아갑니다.'));
     }
 
+    function deselect() {
+      active = -1;
+      pins.forEach(function (p) { p.classList.remove('active'); });
+      chipEls.forEach(function (c) { c.classList.remove('active'); });
+      showHint();
+      flyTo(null);
+    }
+
+    // Selecting the active label again returns to the overview.
     function select(i) {
+      if (i === active) { deselect(); return; }
       active = i;
       pins.forEach(function (p, k) { p.classList.toggle('active', k === i); });
       chipEls.forEach(function (c, k) { c.classList.toggle('active', k === i); });
@@ -109,16 +117,6 @@
       var l = labels[i];
       body.appendChild(el('div', 's3a-title', (i + 1) + '. ' + l.title));
       body.appendChild(el('div', 's3a-desc', l.desc));
-      var reset = el('button', 's3a-reset', '전체 보기');
-      reset.type = 'button';
-      reset.onclick = function () {
-        active = -1;
-        pins.forEach(function (p) { p.classList.remove('active'); });
-        chipEls.forEach(function (c) { c.classList.remove('active'); });
-        showHint();
-        flyTo(null);
-      };
-      body.appendChild(reset);
       flyTo(l);
     }
 
